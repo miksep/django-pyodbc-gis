@@ -69,8 +69,6 @@ class MSSqlOperations(DatabaseOperations, BaseSpatialOperations):
     Adapter = MSSqlAdapter
     Adaptor = Adapter  # Backwards-compatibility alias.
 
-    compiler_module = 'django_pyodbc_gis.compiler'
-
     geometry = True
     geography = True
 
