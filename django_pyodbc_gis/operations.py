@@ -61,7 +61,7 @@ class MSSqlAdapter(str):
 dtypes = (Decimal, Distance, float) + six.integer_types
 
 
-class MSSqlOperations(DatabaseOperations, BaseSpatialOperations):
+class MSSqlOperations(BaseSpatialOperations, DatabaseOperations):
 
     name = 'SQL Server'
     select = '%s.STAsText()'
