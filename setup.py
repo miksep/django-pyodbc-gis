@@ -23,6 +23,6 @@ setup(
         "License :: OSI Approved :: BSD License",
     ],
     install_requires=[
-        "django-pyodbc-azure<1.8",
+        "django-pyodbc-azure>=1.8",
     ],
 )
