@@ -2,7 +2,7 @@
  The GeometryColumns and SpatialRefSys models for the PostGIS backend.
 """
 from django.db import models
-from django.contrib.gis.db.backends.base import SpatialRefSysMixin
+from django.contrib.gis.db.backends.base.models import SpatialRefSysMixin
 from django.utils.encoding import python_2_unicode_compatible
 
 
@@ -22,6 +22,7 @@ class SpatialRefSys(models.Model, SpatialRefSysMixin):
     unit_conversion_factor = models.FloatField(null=True)
 
     class Meta:
+        app_label = 'gis'
         db_table = '[sys].[spatial_reference_systems]'
         managed = False
 

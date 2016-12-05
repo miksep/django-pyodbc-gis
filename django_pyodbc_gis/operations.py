@@ -1,7 +1,7 @@
 from decimal import Decimal
 
-from django.contrib.gis.db.backends.base import BaseSpatialOperations
-from django.contrib.gis.db.backends.util import SpatialFunction
+from django.contrib.gis.db.backends.base.operations import BaseSpatialOperations
+from django.contrib.gis.db.backends.utils import SpatialOperator
 from django.contrib.gis.geometry.backend import Geometry
 from django.contrib.gis.measure import Distance
 from django.utils import six
@@ -10,26 +10,18 @@ from sql_server.pyodbc.operations import DatabaseOperations
 from .models import SpatialRefSys
 
 
-class MSSqlBoolMethod(SpatialFunction):
+class MSSqlBoolMethod(SpatialOperator):
     """SQL Server (non-static) spatial functions are treated as methods,
     for eg g.STContains(p)"""
 
     sql_template = '%(geo_col)s.%(function)s(%(geometry)s) = 1'
 
-    def __init__(self, function, **kwargs):
-        super(MSSqlBoolMethod, self).__init__(function, **kwargs)
 
-
-class MSSqlDistanceFunc(SpatialFunction):
+class MSSqlDistanceFunc(SpatialOperator):
     """Implements distance comparison lookups, eg distance_lte"""
 
     sql_template = ('%(geo_col)s.%(function)s(%(geometry)s) '
                     '%(operator)s %(result)s')
-
-    def __init__(self, op):
-        super(MSSqlDistanceFunc, self).__init__('STDistance',
-                                                operator=op,
-                                                result='%s')
 
 
 class MSSqlBBBoolMethod(MSSqlBoolMethod):
@@ -41,9 +33,6 @@ class MSSqlBBBoolMethod(MSSqlBoolMethod):
     bounding rectangles."""
 
     sql_template = '%(geo_col)s.STEnvelope().%(function)s(%(geometry)s.STEnvelope()) = 1'
-
-    def __init__(self, function, **kwargs):
-        super(MSSqlBoolMethod, self).__init__(function, **kwargs)
 
 
 class MSSqlAdapter(str):
